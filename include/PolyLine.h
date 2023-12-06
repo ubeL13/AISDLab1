@@ -69,6 +69,138 @@ public:
 	}
 
 
+	Point<T>& operator[](const size_t index)
+	{
+		if (index >= size() || index < 0)
+		{
+			throw std::out_of_range("BrokenLine::operator[]  invalid index");
+		}
+		return _points[index];
+	}
+
+	const Point<T>& operator[](const size_t index) const
+	{
+		if (index >= size() || index < 0)
+		{
+			throw std::out_of_range("BrokenLine::operator[]  invalid index");
+		}
+		return _points[index];
+	}
+
+	size_t size() const
+	{
+		return _size;
+	}
 
 
+	BrokenLine<T> operator+(const BrokenLine<T>& other) const
+	{
+		/*size_t size1 = _size;
+		size_t size2 = other.size();*/
+		BrokenLine<T> new_line = BrokenLine(*this);
+		new_line += other;
+		return	new_line;
+	}
+	friend BrokenLine<T> operator+(const Point<T>& point, const BrokenLine<T>& line)
+	{
+		BrokenLine<T> new_line = BrokenLine(line.size() + 1);
+		new_line[0] = point;
+		for (int i = 1; i < new_line.size(); ++i)
+		{
+			new_line[i] = line[i - 1];
+		};
+		return new_line;
+	}
+	friend BrokenLine<T> operator+(const BrokenLine<T>& line, const Point<T>& point)
+	{
+		BrokenLine<T> new_line = BrokenLine(line.size() + 1);
+		for (int i = 0; i < line.size(); ++i)
+		{
+			new_line[i] = line[i];
+		};
+		new_line[new_line.size() - 1] = point;
+		return new_line;
+	}
+	BrokenLine<T>& operator=(const BrokenLine<T>& other)
+	{
+		BrokenLine<T> copy(other);
+		_size = other.size();
+		std::swap(this->_points, copy._points);
+		return *this;
+	}
 
+	BrokenLine<T>& operator+=(const BrokenLine<T>& other)
+	{
+		size_t tmp_size = _size;
+		_size = _size + other._size;
+		Point<T>* copy = _points;
+		_points = new Point<T>[_size];
+		for (int i = 0; i < _size; ++i)
+		{
+			if (i < tmp_size)
+			{
+				_points[i] = copy[i];
+			}
+			else
+			{
+				_points[i] = other[i - tmp_size];
+			}
+		}
+		return *this;
+	}
+	BrokenLine<T>& operator+=(const Point<T>& point)
+	{
+		_size = _size + 1;
+		Point<T>* copy = _points;
+		_points = new Point<T>[_size];
+		for (int i = 0; i < _size; ++i)
+		{
+			if (i < _size - 1)
+			{
+				_points[i] = copy[i];
+			}
+			else
+			{
+				_points[i] = point;
+			}
+		}
+		return *this;
+	}
+	double length(size_t index1, size_t index2) const
+	{
+		if (index1 >= size() || index1 < 0)
+		{
+			throw std::out_of_range("BrokenLine::operator[]  invalid index");
+		}
+		if (index2 >= size() || index2 < 0)
+		{
+			throw std::out_of_range("BrokenLine::operator[]  invalid index");
+		}
+		double len = 0;
+		for (int i = index1; i <= index2 - 1; ++i)
+		{
+			double dx = _points[index1].x - _points[index1 + 1].x;
+			double dy = _points[index1].y - _points[index1 + 1].y;
+			dx = pow(dx, 2);
+			dy = pow(dy, 2);
+			len += sqrt(dx + dy);
+		}
+		return len;
+	}
+};
+template<typename T>
+std::ostream& operator<<(std::ostream& out, const Point<T>& point)
+{
+	out << "(" << point.x << ", " << point.y << ")" << std::endl;
+	return out;
+}
+
+template<typename T>
+std::ostream& operator<<(std::ostream& out, const BrokenLine<T>& line)
+{
+	for (int i = 0; i < line.size(); ++i)
+	{
+		out << "(" << line[i].x << ", " << line[i].y << ")" << std::endl;
+	}
+	return out;
+}
