@@ -204,3 +204,32 @@ std::ostream& operator<<(std::ostream& out, const BrokenLine<T>& line)
 	}
 	return out;
 }
+template<typename T>
+Point<T> rotate(float angle, Point<T> point, Point<T> center)
+{
+	Point<T> newpoint;
+	newpoint.x = (point.x - center.x) * cos(angle) - (point.y - center.y) * sin(angle) + center.x;
+	newpoint.y = (point.x - center.x) * sin(angle) + (point.y - center.y) * cos(angle) + center.y;
+	return newpoint;
+}
+
+double angle(int n)
+{
+	return 2 * acos(-1.0) / n;
+}
+
+template<typename T>
+BrokenLine<T> polygon(int N, T radius)
+{
+	BrokenLine<T> polygon(N + 1);
+	double a = angle(N);
+	polygon[0] = Point<T>(radius, 0);
+	for (int i = 1; i < polygon.size(); ++i)
+	{
+		polygon[i] = rotate(a, polygon[i - 1], Point<float>(0.f, 0.f));
+
+	}
+	return polygon;
+}
+
+

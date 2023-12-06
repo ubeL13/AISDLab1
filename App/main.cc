@@ -9,7 +9,22 @@ using namespace std;
 
 int main()
 {
-	
+	//--------------------------------------------------------------
+	int N;
+	float radius;
+	do
+	{
+		cout << "Enter the number of vertices of the polygon: ";
+		cin >> N;
+	} while (N <= 2);
+	cout << "Enter radius: ";
+	cin >> radius;
+
+	BrokenLine<float> poly = polygon(N, radius);
+	cout << poly;
+	//--------------------------------------------------------------
+
+	//--------------------------------------------------------------
 	BrokenLine<int> letter = BrokenLine<int>(7);
 	letter[0] = Point<int>(0, 1);
 	letter[1] = Point<int>(0, 0);
