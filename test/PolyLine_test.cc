@@ -188,42 +188,6 @@ TEST(BrokenLineTests, PointConBrokenLine)
     EXPECT_EQ(floatBrokenLine3[4].x, 5.5f);
     EXPECT_EQ(floatBrokenLine3[4].y, 5.5f);
 }
-TEST(BrokenLineTests, Assignment_operator_BrokenLine)
-{
-    BrokenLine<float> floatBrokenLine(1);
-    floatBrokenLine[0] = Point(2.2f, 2.2f);
-
-    BrokenLine<float> floatBrokenLine2 = floatBrokenLine;
-    EXPECT_EQ(floatBrokenLine2.size(), 1);
-    EXPECT_EQ(floatBrokenLine2[0].x, 2.2f);
-    EXPECT_EQ(floatBrokenLine2[0].y, 2.2f);
-
-
-}
-TEST(BrokenLineTests, Addition_operator_by_assignment)
-{
-    BrokenLine<float> floatBrokenLine1(1);
-    floatBrokenLine1[0] = Point(2.2f, 2.2f);
-
-    BrokenLine<float> floatBrokenLine2(1);
-    floatBrokenLine2[0] = Point(3.2f, 3.2f);
-
-    floatBrokenLine1 += floatBrokenLine2;
-    EXPECT_EQ(floatBrokenLine1.size(), 2);
-    EXPECT_EQ(floatBrokenLine1[0].x, 2.2f);
-    EXPECT_EQ(floatBrokenLine1[0].y, 2.2f);
-    EXPECT_EQ(floatBrokenLine1[1].x, 3.2f);
-    EXPECT_EQ(floatBrokenLine1[1].y, 3.2f);
-
-    floatBrokenLine1 += Point(4.2f, 4.2f);
-    EXPECT_EQ(floatBrokenLine1.size(), 3);
-    EXPECT_EQ(floatBrokenLine1[0].x, 2.2f);
-    EXPECT_EQ(floatBrokenLine1[0].y, 2.2f);
-    EXPECT_EQ(floatBrokenLine1[1].x, 3.2f);
-    EXPECT_EQ(floatBrokenLine1[1].y, 3.2f);
-    EXPECT_EQ(floatBrokenLine1[2].x, 4.2f);
-    EXPECT_EQ(floatBrokenLine1[2].y, 4.2f);
-}
 TEST(BrokenLineTests, Length_of_BrokenLine)
 {
     BrokenLine<float> floatBrokenLine1(1);

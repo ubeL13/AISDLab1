@@ -53,7 +53,7 @@ public:
 		{
 			for (int i = 0; i < _size; ++i)
 			{
-				_points[i] = Point(T(int(m1) + rand() % (int(m2) - int(m1) + 1)), T(int(m1) + rand() % (int(m2) - int(m1) + 1)));
+				_points[i] 5= Point(T(int(m1) + rand() % (int(m2) - int(m1) + 1)), T(int(m1) + rand() % (int(m2) - int(m1) + 1)));
 			}
 		}
 		else
@@ -95,8 +95,6 @@ public:
 
 	BrokenLine<T> operator+(const BrokenLine<T>& other) const
 	{
-		/*size_t size1 = _size;
-		size_t size2 = other.size();*/
 		BrokenLine<T> new_line = BrokenLine(*this);
 		new_line += other;
 		return	new_line;
@@ -208,7 +206,7 @@ template<typename T>
 Point<T> rotate(float angle, Point<T> point, Point<T> center)
 {
 	Point<T> newpoint;
-	newpoint.x = (point.x - center.x) * cos(angle) - (point.y - center.y) * sin(angle) + center.x;
+	newpoint.x = (point.x - center.x) * cos(angle) - (point.y - center.y) * sin(angle) + center.x;//ур-е поворота 
 	newpoint.y = (point.x - center.x) * sin(angle) + (point.y - center.y) * cos(angle) + center.y;
 	return newpoint;
 }

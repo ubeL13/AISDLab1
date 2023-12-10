@@ -9,6 +9,7 @@ using namespace std;
 
 int main()
 {
+	
 	int N;
 	float radius;
 	do
@@ -20,6 +21,7 @@ int main()
 	cin >> radius;
 
 	BrokenLine<float> poly = polygon(N, radius);
+	cout << poly;
 	return 0;
 
 }
