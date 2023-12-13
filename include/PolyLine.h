@@ -4,6 +4,7 @@
 #include <time.h>
 #include <stdexcept>
 #include <type_traits>
+#include <complex>
 
 
 template<typename T>
@@ -53,7 +54,7 @@ public:
 		{
 			for (int i = 0; i < _size; ++i)
 			{
-				_points[i] = Point(T(int(m1) + rand() % (int(m2) - int(m1) + 1)), T(int(m1) + rand() % (int(m2) - int(m1) + 1)));
+				_points[i]= Point(T(int(m1) + rand() % (int(m2) - int(m1) + 1)), T(int(m1) + rand() % (int(m2) - int(m1) + 1)));
 			}
 		}
 		else
@@ -67,6 +68,7 @@ public:
 			}
 		}
 	}
+
 
 
 	Point<T>& operator[](const size_t index)
@@ -186,6 +188,19 @@ public:
 		return len;
 	}
 };
+template<typename T>
+std::complex<T> RandomComplex(T min, T max) {
+	T real_part = min + static_cast<T>(rand()) / (static_cast<T>(RAND_MAX / (max - min)));
+	T imag_part = min + static_cast<T>(rand()) / (static_cast<T>(RAND_MAX / (max - min)));
+	return std::complex<T>(real_part, imag_part);
+}
+
+
+template<typename T>
+double length(const std::complex<T>& z1, const std::complex<T>& z2) {
+	return std::abs(z2 - z1);
+}
+
 template<typename T>
 std::ostream& operator<<(std::ostream& out, const Point<T>& point)
 {
