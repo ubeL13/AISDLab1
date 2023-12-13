@@ -53,7 +53,7 @@ public:
 		{
 			for (int i = 0; i < _size; ++i)
 			{
-				_points[i] 5= Point(T(int(m1) + rand() % (int(m2) - int(m1) + 1)), T(int(m1) + rand() % (int(m2) - int(m1) + 1)));
+				_points[i] = Point(T(int(m1) + rand() % (int(m2) - int(m1) + 1)), T(int(m1) + rand() % (int(m2) - int(m1) + 1)));
 			}
 		}
 		else
