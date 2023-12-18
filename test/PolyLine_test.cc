@@ -189,38 +189,6 @@ TEST(BrokenLineTests, PointConBrokenLine)
     EXPECT_EQ(floatBrokenLine3[4].x, 5.5f);
     EXPECT_EQ(floatBrokenLine3[4].y, 5.5f);
 }
-TEST(BrokenLineTests, Length_of_BrokenLine)
-{
-    BrokenLine<float> floatBrokenLine1(1);
-    floatBrokenLine1[0] = Point(0.f, 0.f);
 
-    BrokenLine<float> floatBrokenLine2(1);
-    floatBrokenLine2[0] = Point(3.0f, 4.0f);
-
-    floatBrokenLine1 += floatBrokenLine2;
-    floatBrokenLine1 += Point(6.0f, 0.0f);
-
-    EXPECT_EQ(floatBrokenLine1.length(0, 2), 10.f);
-}
-
-TEST(ComplexLengthTest, BasicTests) {
-
-    std::complex<int> complex_int1(1, 2);
-    std::complex<int> complex_int2(4, 6);
-    double expected_length_int = std::hypot(double(4 - 1), double(6 - 2)); 
-    ASSERT_DOUBLE_EQ(length(complex_int1, complex_int2), expected_length_int);
-
- 
-    std::complex<double> complex_double1(1.0, 2.0);
-    std::complex<double> complex_double2(3.0, 4.0);
-    double expected_length_double = std::hypot(3.0 - 1.0, 4.0 - 2.0);
-    ASSERT_DOUBLE_EQ(length(complex_double1, complex_double2), expected_length_double);
-
-   
-    std::complex<double> complex_double3(-1.0, -3.0);
-    std::complex<double> complex_double4(-4.0, -5.0);
-    double expected_length_negative = std::hypot(-4.0 + 1.0, -5.0 + 3.0);
-    ASSERT_DOUBLE_EQ(length(complex_double3, complex_double4), expected_length_negative);
-}
 
 

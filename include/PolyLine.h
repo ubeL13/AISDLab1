@@ -12,6 +12,10 @@ struct Point {
 	T x, y;
 	Point() : x(0), y(0) {}
 	Point(T x, T y) : x(x), y(y) {}
+	double len(const Point<T>& other) const {
+
+		return sqrt((x - other.x) * (x - other.x) + (y - other.y) * (y - other.y));
+	}
 };
 
 template<typename T>
@@ -20,6 +24,8 @@ class BrokenLine
 private:
 	Point<T>* _points;
 	size_t _size;
+	const double epsilon = 0.0001;
+
 public:
 	BrokenLine() : _size(0), _points(nullptr) { }
 	BrokenLine(const T x, const T y)
@@ -93,8 +99,19 @@ public:
 	{
 		return _size;
 	}
+	friend bool operator==(const BrokenLine<T>& line_1, const BrokenLine<T>& line_2) {
+		if (line_1.size() != line_2.size()) {
+			return false;
+		}
 
+		for (size_t i = 0; i < line_1.size(); ++i) {
+			if (!(line_1[i].x == line_2[i].x && line_1[i].y == line_2[i].y)) {
+				return false;
+			}
+		}
 
+		return true; 
+	}
 	BrokenLine<T> operator+(const BrokenLine<T>& other) const
 	{
 		BrokenLine<T> new_line = BrokenLine(*this);
@@ -148,45 +165,28 @@ public:
 		}
 		return *this;
 	}
-	BrokenLine<T>& operator+=(const Point<T>& point)
+	
+
+
+	double length() const
 	{
-		_size = _size + 1;
-		Point<T>* copy = _points;
-		_points = new Point<T>[_size];
-		for (int i = 0; i < _size; ++i)
-		{
-			if (i < _size - 1)
-			{
-				_points[i] = copy[i];
-			}
-			else
-			{
-				_points[i] = point;
-			}
+		double total_length = 0.0;
+		for (size_t i = 1; i < _size; ++i) {
+			total_length += _points[i].len(_points[i - 1]);
 		}
-		return *this;
+		return total_length;
 	}
-	double length(size_t index1, size_t index2) const
-	{
-		if (index1 >= size() || index1 < 0)
-		{
-			throw std::out_of_range("BrokenLine::operator[]  invalid index");
-		}
-		if (index2 >= size() || index2 < 0)
-		{
-			throw std::out_of_range("BrokenLine::operator[]  invalid index");
-		}
-		double len = 0;
-		for (int i = index1; i <= index2 - 1; ++i)
-		{
-			double dx = _points[index1].x - _points[index1 + 1].x;
-			double dy = _points[index1].y - _points[index1 + 1].y;
-			dx = pow(dx, 2);
-			dy = pow(dy, 2);
-			len += sqrt(dx + dy);
-		}
-		return len;
+	double length(const Point<T>& a, const Point<T>& b) {
+		return a.len(b);
 	}
+	double length(const Point<std::complex<T>>& a, const Point<std::complex<T>>& b) {
+		return sqrt(pow((a.x.real() - b.x.real()), 2) + pow((a.y.imag() - b.y.imag()), 2));
+	}
+
+
+
+
+
 };
 template<typename T>
 std::complex<T> RandomComplex(T min, T max) {
@@ -196,10 +196,7 @@ std::complex<T> RandomComplex(T min, T max) {
 }
 
 
-template<typename T>
-double length(const std::complex<T>& z1, const std::complex<T>& z2) {
-	return std::abs(z2 - z1);
-}
+
 
 template<typename T>
 std::ostream& operator<<(std::ostream& out, const Point<T>& point)
